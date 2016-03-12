@@ -1,0 +1,195 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animation-behavior.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bounce-up-animation/bounce-up-animation.html">
+
+
+
+
+<dom-module id="news-element">
+    <style>
+        :host {
+            display: block;
+            width: 100%;
+            float: left;
+            height: 600px;
+        }
+        #banner {
+          width: 600px;
+          min-height: 500px;
+          background-color: #D4CDCB;
+          display: block;
+          margin: 0 auto;
+          border-radius: 10px 10px 0px 0px;
+        }
+        #header {
+          width: 100%;
+          height: 60px;
+          background-color: #FF6855;
+          border-radius: 10px 10px 0px 0px;
+          padding: 17px 37px;
+        }
+        #menu {
+          width: 45px;
+        }
+        #content {
+          width: 100%;
+          min-height: 440px;
+          padding: 10px 37px;
+        }
+        #btn {
+          padding: 10px;
+          display: block;
+          color: white;
+          background-color: black;
+        }
+        @media only screen and (max-width: 600px) {
+            :host {
+                /*position: relative;
+                float: left;
+                width: 100%;*/
+            }
+        }
+    </style>
+    <template>
+        <iron-ajax 
+          id="ajaxReq" 
+          url="../../scripts/news_mock.json" 
+          handle-as="json" 
+          last-response="{{ newsData }}" 
+          on-response="handleResponse">
+        </iron-ajax>
+
+        <button id="btn" on-tap="show">Animar</button>
+        <div id="banner">
+          <div id="header">
+            <a on-tap="menuPressed"><img id="menu" src="../../images/technology.png"></a>
+          </div>
+          <div id="content" >
+            <template id="entradas" is="dom-repeat" items="{{ newsData }}" >
+                <news-item titulo="{{item.title}}" texto="{{item.content}}" imagen="{{item.image}}" style="display:none;"></news-item>
+            </template>
+          </div>
+        </div>
+    </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+          is: 'news-element',
+
+          behaviors: [
+            Polymer.NeonAnimatableBehavior,
+            Polymer.NeonAnimationRunnerBehavior
+          ],
+
+          properties: {
+              oculto : {
+                type: Boolean,
+                value: true,
+                notify: true
+              },
+              animationConfig: {
+                  value: function() {
+                      return {
+                          'entry' : [
+                              {
+                                  name: 'bounce-up-animation',
+                                  node: this.$.banner,
+                                  timing: { duration: 1000 }
+                              },
+                              {
+                                  name: 'fade-in-animation',
+                                  node: this.$.banner,
+                                  timing: { duration: 1000 }
+                              }
+                          ],
+                          'exit' : {
+                              name: 'fade-out-animation',
+                              node: this.$.banner
+                          }
+                      }
+                  }
+              }
+          },
+
+          listeners: {
+              'neon-animation-finish': "_onNeonAnimationFinish"
+          },
+
+          ready: function() {
+              this.show();
+          },
+
+          handleResponse: function(e) {
+              console.log("Obtenidos datos propios");
+              console.log(this.newsData);
+
+              
+              // this.oculto = false;
+              var self = this;
+              setTimeout(function() {
+                self.animar();
+              }, 50);
+          },
+
+          menuPressed: function() {
+            this.$.ajaxReq.generateRequest();
+          },
+          
+          animar: function() {
+              
+              var item = this.querySelectorAll('news-item');
+              console.log(item.length);
+              var i =0;
+              var self = this;
+              this.intervalo = setInterval(function(){
+                  item[i].style.display = "block";
+                  item[i].playAnimation('entry');
+                  i++;
+                  if(i == item.length){
+                    self.terminarIntervalo();
+                    console.log('terminado');
+                  }
+                },300);
+                
+          },
+
+          terminarIntervalo: function(){
+            clearInterval(this.intervalo);
+          },
+
+          _onNeonAnimationFinish: function() {
+              console.log("Se termino la animacion");
+          },
+
+          show: function() {
+              this.style.display = 'block';
+              this.cancelAnimation();
+              this.playAnimation('entry');
+          },
+
+          hide: function() {
+              this.style.display = 'none';
+              this.cancelAnimation();
+              this.playAnimation('exit');
+          }
+
+      });
+    })();
+  </script>
+</dom-module>
