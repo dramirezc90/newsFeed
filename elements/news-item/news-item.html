@@ -16,12 +16,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             display: block;
             position: relative;
             width: 100%;
-            padding: 5px;
-            height: 70px;
             float: left;
             margin-bottom: 8px;
             transition: 0.6s all ease-in-out;
-            background-color: white;
         }
         .service-panel-img {
             display: inline-block;
@@ -35,6 +32,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             float: left;
             height: 60px;
             width: 85%;
+        }
+        .content-panel-img {
+            display: inline-block;
+            float: left;
+            width: 30%;
+
+        }
+        .content-panel-img img {
+          display: block;
+          width: 100%;
+        }
+        .content-panel-desc {
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+            width: 70%;
+            padding: 20px;
+            font-size: 0.8em;
+            font-weight: 300;
+            text-align: justify;
         }
         .service-panel-desc p {
             color: #16695F;
@@ -51,6 +68,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .service-panel-desc h4 {
             font-size: 0.85em;
             font-weight: 300;
+        }
+        #animatableElem {
+            display: block;
+            height: 70px;
+            padding: 5px;
+            background-color: white;
+        }
+        .content {
+            display: block;
+            width: 100%;
+            height: auto;
+            background-color: white;
+            margin-top: 5px;
+            display: relative;
+            float: left;
         }
         @media only screen and (max-width: 1024px) {
             :host {
@@ -77,8 +109,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h4>{{titulo}}</h4>
             <!-- <p>{{texto}}</p> -->
         </div>
-        
     </div>
+    <div class="content">
+        <div class="content-panel-img">
+            <!-- <img src="http://lorempixel.com/300/300"> -->
+            <img src="{{imagen}}">
+        </div>
+        <div class="content-panel-desc">
+            <p>{{texto}}</p>
+            <!-- <p>{{texto}}</p> -->
+        </div>
+    </div>
+    
   </template>
 
   <script>
@@ -115,11 +157,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               animationConfig: {
                   value: function() {
                       return {
-                          'entry' : [
+                          'open' : [
                               {
                                   name: 'expand-left-animation',
                                   node: this,
-                                  axis: 'x',
+                                  axis: 'y',
                                   timing: { duration: 800 }
                               },
                               {
@@ -140,11 +182,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           ready: function() {
             console.log(this.imagen);
-            // this.show();
+            this.show();
           },
 
           show: function() {
-              this.style.display = 'block';
+              // this.style.display = 'block';
               this.cancelAnimation();
               this.playAnimation('entry');
           },

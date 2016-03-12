@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animation-behavior.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animation-runner-behavior.html">
 
@@ -23,11 +22,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             display: block;
             width: 100%;
             float: left;
-            height: 600px;
+            height: 800px;
         }
         #banner {
           width: 600px;
           min-height: 500px;
+          max-height: 800px;
           background-color: #D4CDCB;
           display: block;
           margin: 0 auto;
@@ -46,7 +46,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         #content {
           width: 100%;
           min-height: 440px;
+          max-height: 740px;
           padding: 10px 37px;
+          overflow: scroll;
         }
         #btn {
           padding: 10px;
@@ -78,7 +80,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
           <div id="content" >
             <template id="entradas" is="dom-repeat" items="{{ newsData }}" >
-                <news-item titulo="{{item.title}}" texto="{{item.content}}" imagen="{{item.image}}" style="display:none;"></news-item>
+                <news-item titulo="{{item.title}}" texto="{{item.content}}" imagen="{{item.image}}" style="
+                display: none" ></news-item>
             </template>
           </div>
         </div>
@@ -103,6 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 notify: true
               },
               animationConfig: {
+                  type: Object,
                   value: function() {
                       return {
                           'entry' : [
@@ -121,9 +125,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                               name: 'fade-out-animation',
                               node: this.$.banner
                           },
-                          'elems' : {
-
-                          }
+                          'elems': [{
+                              name: 'cascaded-animation',
+                              animation: 'expand-left-animation',
+                              axis: 'x',
+                              timing: {
+                                delay: 100,
+                                duration: 1000
+                              }
+                          }]
                       }
                   }
               }
@@ -138,41 +148,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           },
 
           handleResponse: function(e) {
-              console.log("Obtenidos datos propios");
-              console.log(this.newsData);
-
-              
-              // this.oculto = false;
-              var self = this;
-              setTimeout(function() {
-                self.animar();
-              }, 80);
+              this.attached();
           },
 
           menuPressed: function() {
             this.$.ajaxReq.generateRequest();
-          },
-          
-          animar: function() {
-              
-              var item = this.querySelectorAll('news-item');
-              console.log(item.length);
-              var i =0;
-              var self = this;
-              this.intervalo = setInterval(function(){
-                  item[i].style.display = "block";
-                  item[i].playAnimation('entry');
-                  i++;
-                  if(i == item.length){
-                    self.terminarIntervalo();
-                    console.log('terminado');
-                  }
-                },300);
-                
-          },
-
-          terminarIntervalo: function(){
-            clearInterval(this.intervalo);
           },
 
           _onNeonAnimationFinish: function() {
@@ -189,6 +169,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               this.style.display = 'none';
               this.cancelAnimation();
               this.playAnimation('exit');
+          },
+
+          attached: function() {
+              this.async(function() {
+                var nodeList = Polymer.dom(this.root).querySelectorAll('news-item');
+                this.animationConfig['elems'][0].nodes = Array.prototype.slice.call(nodeList);
+                for (var i = nodeList.length - 1; i >= 0; i--) {
+                  nodeList[i].style.display = "block";
+                }
+                this.playAnimation('elems');
+              })
           }
 
       });
