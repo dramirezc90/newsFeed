@@ -8,8 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="news-item">
   <template>
@@ -21,15 +19,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             padding: 5px;
             height: 70px;
             float: left;
-            margin-bottom: 25px;
+            margin-bottom: 8px;
             transition: 0.6s all ease-in-out;
             background-color: white;
-        }
-        :host:hover {
-
-        }
-        :host:hover img {
-
         }
         .service-panel-img {
             display: inline-block;
@@ -38,6 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             width: 15%;
         }
         .service-panel-desc {
+            overflow: hidden;
             display: inline-block;
             float: left;
             height: 60px;
@@ -54,6 +47,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             border-radius: 50%;
             margin: auto;
             transition: 0.6s all ease-in-out;
+        }
+        .service-panel-desc h4 {
+            font-size: 0.85em;
+            font-weight: 300;
         }
         @media only screen and (max-width: 1024px) {
             :host {
@@ -120,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       return {
                           'entry' : [
                               {
-                                  name: 'scale-up-animation',
+                                  name: 'expand-left-animation',
                                   node: this,
                                   axis: 'x',
                                   timing: { duration: 800 }
