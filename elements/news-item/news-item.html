@@ -75,8 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             padding: 5px;
             background-color: white;
         }
-        .content {
-            display: block;
+        #content {
             width: 100%;
             height: auto;
             background-color: white;
@@ -100,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         }
     </style>
-    <div id="animatableElem" class="news-item-elem">
+    <div on-tap="showDesc" id="animatableElem" class="news-item-elem">
         <div class="service-panel-img">
             <!-- <img src="http://lorempixel.com/300/300"> -->
             <img src="{{imagen}}">
@@ -110,7 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <!-- <p>{{texto}}</p> -->
         </div>
     </div>
-    <div class="content">
+    <div id="content">
         <div class="content-panel-img">
             <!-- <img src="http://lorempixel.com/300/300"> -->
             <img src="{{imagen}}">
@@ -160,13 +159,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           'open' : [
                               {
                                   name: 'expand-left-animation',
-                                  node: this,
+                                  node: this.$.content,
                                   axis: 'y',
                                   timing: { duration: 800 }
                               },
                               {
                                   name: 'fade-in-animation',
-                                  node: this,
+                                  node: this.$.content,
                                   timing: { duration: 1000 }
                               }
                           ],
@@ -183,6 +182,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           ready: function() {
             console.log(this.imagen);
             this.show();
+          },
+
+          showDesc: function(){
+              this.cancelAnimation();
+              console.log(this.$.content.style);
+              this.$.content.style.display = 'hidden';
+              console.log(this.$.content.style);
+              this.playAnimation('open');
           },
 
           show: function() {
