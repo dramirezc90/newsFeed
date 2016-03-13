@@ -36,18 +36,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .content-panel-img {
             display: inline-block;
             float: left;
-            width: 30%;
-
+            width: 35%;
+            height: 100%;
+            overflow: hidden;
         }
         .content-panel-img img {
           display: block;
-          width: 100%;
+          height: 100%;
         }
         .content-panel-desc {
-            overflow: hidden;
+            overflow: scroll;
             display: inline-block;
             float: left;
-            width: 70%;
+            width: 65%;
             padding: 20px;
             font-size: 0.8em;
             font-weight: 300;
@@ -71,17 +72,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         #animatableElem {
             display: block;
-            height: 70px;
+            min-height: 70px;
             padding: 5px;
             background-color: white;
         }
         #content {
             width: 100%;
-            height: auto;
+            height: 180px;
             background-color: white;
             margin-top: 5px;
-            display: relative;
+            display: none;
             float: left;
+            -webkit-transition: visibility 0s, opacity 0.5s linear;
+            transition: visibility 0s, opacity 0.5s linear;
+            visibility: hidden;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #content.active {
+            display: block !important;
+            visibility: visible;
+            opacity: 1;
+        }
+        .content-panel-desc h3 {
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 0.2em;
         }
         @media only screen and (max-width: 1024px) {
             :host {
@@ -99,22 +115,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         }
     </style>
-    <div on-tap="showDesc" id="animatableElem" class="news-item-elem">
+    <div on-tap="mostrar" id="animatableElem" class="news-item-elem">
         <div class="service-panel-img">
-            <!-- <img src="http://lorempixel.com/300/300"> -->
             <img src="{{imagen}}">
         </div>
         <div class="service-panel-desc">
             <h4>{{titulo}}</h4>
-            <!-- <p>{{texto}}</p> -->
         </div>
     </div>
     <div id="content">
         <div class="content-panel-img">
-            <!-- <img src="http://lorempixel.com/300/300"> -->
             <img src="{{imagen}}">
         </div>
         <div class="content-panel-desc">
+            <h3>{{titulo}}</h3>
+
             <p>{{texto}}</p>
             <!-- <p>{{texto}}</p> -->
         </div>
@@ -153,25 +168,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   notify: true
               },
 
+              opened : {
+                  type: Boolean,
+                  value: false
+              },
+
               animationConfig: {
                   value: function() {
                       return {
                           'open' : [
                               {
-                                  name: 'expand-left-animation',
+                                  name: 'expand-animation',
                                   node: this.$.content,
                                   axis: 'y',
-                                  timing: { duration: 800 }
-                              },
-                              {
-                                  name: 'fade-in-animation',
-                                  node: this.$.content,
                                   timing: { duration: 1000 }
                               }
                           ],
                           'exit' : {
-                              name: 'fade-out-animation',
-                              node: this
+                              name: 'retract-animation',
+                              node: this.$.content,
+                              axis: 'y',
+                              timing: { duration: 1000 }
                           }
                       }
                   }
@@ -179,17 +196,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           },
 
+          listeners: {
+              'neon-animation-finish': '_onNeonAnimationFinish'
+            },
+
           ready: function() {
             console.log(this.imagen);
             this.show();
           },
 
-          showDesc: function(){
-              this.cancelAnimation();
-              console.log(this.$.content.style);
-              this.$.content.style.display = 'hidden';
-              console.log(this.$.content.style);
+          showDesc: function() {
+              console.log(this.opened);
+              this.opened = true;
+              this.toggleClass('active', this.opened, this.$.content);
               this.playAnimation('open');
+          },
+
+          mostrar: function(e, detail) {
+            var nodeList = Polymer.dom(this.root).node.host.parentElement.querySelectorAll('#content.active');
+
+            this.cancelAnimation();
+            console.log(this.opened);
+              if( this.opened )
+                  this.hide();
+              else
+                  this.showDesc();
+
+              var self = this;
+
+              setTimeout(function(){
+                  if (!self.opened) {
+                    self.toggleClass('active', false, self.$.content);
+                  }
+              }, 500);  
+              
+          },
+
+          hide: function() {
+              this.opened = false;
+              this.playAnimation('exit');
           },
 
           show: function() {
@@ -197,6 +242,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               this.cancelAnimation();
               this.playAnimation('entry');
           },
+
+          _onNeonAnimationFinish: function() {
+              console.log("animation Finished");  
+              /*if (!this.opened) {
+                this.toggleClass('active', false, this.$.content);
+              }*/
+          }
+
+          
 
       });
     })();

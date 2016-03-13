@@ -12,5 +12,6 @@ html {
 #mainContainer {
 	height: 100vh;
 	width: 100vw;
-	background-color: #eee;
+	background-color: #394D5A;
+	padding50px;
 }

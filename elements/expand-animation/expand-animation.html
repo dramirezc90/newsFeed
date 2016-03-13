@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Polymer({
 
-    is: 'expand-left-animation',
+    is: 'expand-animation',
 
     behaviors: [
       Polymer.NeonAnimationBehavior
@@ -26,7 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (config.transformOrigin) {
           this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
         } else {
-            this.setPrefixedProperty(node, 'transformOrigin', '0% 0');
+            this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
         }
 
         var scaleProperty = 'scale(0)';
@@ -36,10 +36,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           scaleProperty = 'scale(1, 0)';
         }
 
-        this._effect = new KeyframeEffect(node, [
-          {'transform': scaleProperty},
-          {'transform': 'scale(1, 1)'}
-        ], this.timingFromConfig(config));
+        if (config.axis === 'x') {
+            this._effect = new KeyframeEffect(node, [
+              {'transform': scaleProperty},
+              {'transform': 'scale(1.25, 1)'},
+              {'transform': 'scale(0.9, 1)'},
+              {'transform': 'scale(1.08, 1)'},
+              {'transform': 'scale(1, 1)'}
+            ], this.timingFromConfig(config));
+        } else if (config.axis === 'y') {
+            this._effect = new KeyframeEffect(node, [
+              {'transform': scaleProperty},
+              {'transform': 'scale(1, 1.25)'},
+              {'transform': 'scale(1, 0.9)'},
+              {'transform': 'scale(1, 1.08)'},
+              {'transform': 'scale(1, 1)'}
+            ], this.timingFromConfig(config));
+        }
+       
 
         return this._effect;
 
