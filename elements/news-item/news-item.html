@@ -1,13 +1,3 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 
 <dom-module id="news-item">
   <template>
@@ -18,56 +8,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             width: 100%;
             float: left;
             margin-bottom: 8px;
-        }
-        .service-panel-img {
-            display: inline-block;
-            float: left;
-            height: 90px;
-            width: 20%;
-        }
-        .service-panel-desc {
-            overflow: hidden;
-            display: inline-block;
-            float: left;
-            height: 90px;
-            width: 80%;
-        }
-        .content-panel-img {
-            display: inline-block;
-            float: left;
-            height: 100%;
-            overflow: hidden;
-            width: 200px;
-        }
-        .content-panel-img img {
-          display: block;
-          height: 100%;
-          max-height: 200px;
-          max-width: 200px;
-        }
-        .content-panel-desc {
-            display: inline-block;
-            float: left;
-            width: 70%;
-            padding: 20px;
-            font-size: 1em;
-            font-weight: 300;
-            text-align: justify;
-        }
-        .service-panel-desc p {
-            color: #16695F;
-            font-size: 0.9em;
-            font-weight: 300;
-        }
-        .service-panel-img img {
-            display: block;
-            height: 100%;
-            border-radius: 50%;
-            margin: auto;
-        }
-        .service-panel-desc h4 {
-            font-size: 1.2em;
-            font-weight: 300;
         }
         #animatableElem {
             display: block;
@@ -92,20 +32,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             opacity: 1 !important;
         }
         .content-panel-desc h3 {
-            font-size: 0.9em;
+            font-size: 1.1em;
             font-weight: 600;
             margin: 0.2em;
         }
+        .content-panel-img {
+            display: inline-block;
+            float: left;
+            height: 100%;
+            overflow: hidden;
+            width: 200px;
+        }
+        .content-panel-img img {
+          display: block;
+          height: 100%;
+          max-height: 200px;
+          max-width: 200px;
+        }
+        .content-panel-desc {
+            display: inline-block;
+            float: left;
+            width: 70%;
+            padding: 20px;
+            font-size: 1em;
+            font-weight: 300;
+            text-align: justify;
+        }
+        .service-panel-img {
+            display: inline-block;
+            float: left;
+            height: 90px;
+            width: 20%;
+        }
+        .service-panel-desc {
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+            height: 90px;
+            width: 80%;
+        }
+        
+        .service-panel-desc p {
+            color: #16695F;
+            font-size: 0.9em;
+            font-weight: 300;
+        }
+        .service-panel-img img {
+            display: block;
+            height: 100%;
+            border-radius: 50%;
+            margin: auto;
+        }
+        .service-panel-desc h4 {
+            font-size: 1.2em;
+            font-weight: 300;
+        }
         @media only screen and (max-width: 700px) {
+            .content-panel-desc {
+              width: 60%;
+            }
             .service-panel-img {
               width: 25%
             }
             .service-panel-desc {
               width: 75%;
             }
-            .content-panel-desc {
-            width: 60%;
-        }
         }
         @media only screen and (max-width: 370px) {
             :host {
@@ -115,6 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         }
     </style>
+    <!-- Cuerpo seleccionable del ítem de noticias -->
     <div on-tap="mostrar" id="animatableElem" class="news-item-elem">
         <div class="service-panel-img">
             <img src="{{imagen}}">
@@ -123,15 +115,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h4>{{tituloF}}</h4>
         </div>
     </div>
+    <!-- Sección toggle con la información del ítem de noticias -->
     <div id="content">
         <div class="content-panel-img">
             <img src="{{imagen}}">
         </div>
         <div class="content-panel-desc">
             <h3>{{tituloF}}</h3>
-
             <p>{{texto}}</p>
-            <!-- <p>{{texto}}</p> -->
         </div>
     </div>
     
@@ -143,41 +134,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       Polymer({
           is: 'news-item',
-
+          // Comportamientos del elemento para correr animaciones
           behaviors: [
             Polymer.NeonAnimatableBehavior,
             Polymer.NeonAnimationRunnerBehavior
           ],
-
+          // Propiedades del elemento news-item
           properties: {
-
               titulo: {
                   type: String,
                   notify: true
               },
-
               tituloF: {
                 type: String,
                 computed: 'computeTitle(titulo)',
                 notify: true
               },
-
               texto: {
                   type: String,
                   value: "Este texto es un placeholder unicamente usado como valor default para la ficha y verificar que el comportamiento sea el deseado",
                   notify: true
               },
-
               imagen : {
                   type: String,
                   notify: true
               },
-
               opened : {
                   type: Boolean,
                   value: false
               },
-
+              // Configuración de las animaciones
               animationConfig: {
                   value: function() {
                       return {
@@ -201,23 +187,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           },
 
-
+          // Función que corre al cargar todos los elementos
           ready: function() {
             this.show();
           },
-
+          // Método para depurar el título: Convertir primer char en MAYUSC y el resto de la cadena a MINUSC
           computeTitle: function( titulo ) {
             var t = titulo.toLowerCase().substring(1);
             var first = titulo.charAt(0).toUpperCase();
             return first.concat(t);
           },
-
+          // Mostrar sección de contenido para cada item
           showDesc: function() {
               this.opened = true;
               this.toggleClass('active', this.opened, this.$.content);
               this.playAnimation('open');
           },
-
+          // Enviar como parámetro título del elemento seleccionado en un evento llamado "eventoEnHijo"
           mostrar: function() {
             console.log('mostrando');
             this.fire('eventoEnHijo', {titulo: this.tituloF, opened: this.opened});
@@ -236,19 +222,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               }, 450);  
               
           },
-
+          // Esconder item
           hide: function() {
               this.opened = false;
               this.playAnimation('exit');
           },
-
+          // Mostrar ítem y correr animación de entrada
           show: function() {
               // this.style.display = 'block';
               this.cancelAnimation();
               this.playAnimation('entry');
           },
           
-
       });
     })();
   </script>

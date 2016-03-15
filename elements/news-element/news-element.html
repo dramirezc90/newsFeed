@@ -1,20 +1,3 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<!-- 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/neon-animation/neon-animation-behavior.html">
-<link rel="import" href="../../bower_components/neon-animation/neon-animation-runner-behavior.html"> -->
-
-
-
-
 
 <dom-module id="news-element">
     <style>
@@ -33,33 +16,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin: 0 auto;
           border-radius: 10px 10px 0px 0px;
         }
-        #header {
-          width: 100%;
-          height: 70px;
-          background-color: #FF6855;
-          border-radius: 10px 10px 0px 0px;
-          padding: 17px 37px;
-        }
-        #header img {
-          display: inline-block;
-          float: left;
-        }
-        #menu-cont {
-          display: inline-block;
-          width: 20%;
-          float: left;
-        }
-        #header span {
-          display: inline-block;
-          color: white;
-          font-weight: 100;
-          margin: 4px 0px;
-          display: none;
-          width: 80%;
-        }
-        #menu {
-          width: 45px;
-        }
         #content {
           width: 100%;
           min-height: 70vh;
@@ -74,21 +30,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           max-width: 600px;
           margin: 50px auto;
         }
-        #modalWarning {
-          display: none;
-          position: absolute;
-          width: 200px;
-          top: 40%;
-          left: 42%;
-          padding: 20px;
-          background-color: #eee;
-          text-align: center;
-          z-index: 2;
-        }
-        #modalWarning span {
-          display: block;
-          margin: 5px;
-        }
         #cover {
           display: none;
           width: 100%;
@@ -98,14 +39,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           top: 0;
           left: 0;
           z-index: 1;
-        }
-        .resetBtn {
-          position: relative;
-          display: block;
-          width: 30%;
-          margin: 10px auto;
-          background-color: white;
-          color: red;
         }
         #config label {
           display: inline-block;
@@ -122,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           display: inline-block;
           margin: 5px 5px;
           border: none;
-          width: 200px;
+          width: 100%;
         }
         #config button {
           padding: 5px 13px;
@@ -132,6 +65,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin: 5px 15px;
           font-size: 1em;
           font-weight: 100;
+        }
+        #header {
+          width: 100%;
+          height: 70px;
+          background-color: #FF6855;
+          border-radius: 10px 10px 0px 0px;
+          padding: 17px 37px;
+        }
+        #header img {
+          display: inline-block;
+          float: left;
+        }
+        #header span {
+          display: inline-block;
+          color: white;
+          font-weight: 100;
+          margin: 4px 0px;
+          display: none;
+          width: 80%;
+        }
+        #menu-cont {
+          display: inline-block;
+          width: 20%;
+          float: left;
+        }
+        #menu {
+          width: 45px;
+        }
+        #modalWarning {
+          display: none;
+          position: absolute;
+          width: 200px;
+          top: 40%;
+          left: 42%;
+          padding: 20px;
+          background-color: #eee;
+          text-align: center;
+          z-index: 2;
+        }
+        #modalWarning span {
+          display: block;
+          margin: 5px;
+        }
+        .resetBtn {
+          position: relative;
+          display: block;
+          width: 30%;
+          margin: 10px auto;
+          background-color: white;
+          color: red;
         }
         @media only screen and (max-width: 1024px) {
             #banner {
@@ -143,11 +126,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             :host {
                 
             }
-            #content {
-              padding: 10px 15px;
-            }
             #banner {
               min-width: 340px;
+            }
+            #content {
+              padding: 10px 15px;
             }
             #config {
               width: 60%;
@@ -158,12 +141,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             #banner {
               width: 95%;
             }
+            #banner {
+              min-width: 300px;
+            }
             #config {
               width: 95%;
               margin-top: 20px;
-            }
-            #banner {
-              min-width: 300px;
             }
             #header {
               width: 100%;
@@ -187,7 +170,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           on-error="_handleError">
         </iron-ajax>
 
-
+        <!-- Seccion de botones e input para cambiar la url -->
         <div id="config">
             <label>URL datos</label>
             <input type="text" value="{{url::input}}">
@@ -195,6 +178,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <button on-tap="closeAlert">Exit</button>
         </div>
         
+        <!-- Cuerpo principal de la aplicacion -->
         <div id="banner">
           <div id="header">
             <div id="menu-cont">
@@ -203,13 +187,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span id="title">{{titulo}}</span>
           </div>
           <div id="content" >
+
+          <!-- Lista de noticias dom-repeat -->
             <template id="entradas" is="dom-repeat" items="{{ newsData }}" >
                 <news-item titulo="{{item.title}}" texto="{{item.content}}" imagen="{{item.image}}" style="
                 display: none" ></news-item>
             </template>
+
           </div>
         </div>
 
+        <!-- Modal con alertas de error -->
         <div id="cover"></div>
         <div id="modalWarning">
             <span style="color: red;">Error</span>
@@ -226,12 +214,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       Polymer({
           is: 'news-element',
-
+          // Comportamientos del elemento para correr animaciones
           behaviors: [
             Polymer.NeonAnimatableBehavior,
             Polymer.NeonAnimationRunnerBehavior
           ],
-
+          // Propiedades del objeto news-element
           properties: {
               titulo: {
                 type: String,
@@ -252,6 +240,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   value: "scripts/news_mock.json",
                   notify: false
               },
+              // Configuración de las animaciones
               animationConfig: {
                   type: Object,
                   value: function() {
@@ -304,22 +293,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   }
               }
           },
-
+          // Crear listener para obtener evento de selección de ítem en news-item
           listeners: {
               'eventoEnHijo': 'setNewsTitle'
           },
-
-
+          // Mostrar aplicación cuando todos los elementos hayan sido cargados
           ready: function() {
             this.$.banner.display = "block";
               this.show();
           },
-
+          // Ocultar modal 
           reset: function() {
             this.$.cover.style.display = 'none';
             this.$.modalWarning.style.display = 'none';
           },
-
+          // Obtener el ítem seleccionado, correr animación y volcar valor de título al elemento correspondiente
           setNewsTitle: function(event) {
             console.log(event.detail);
             if (event.detail.opened) {
@@ -338,7 +326,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.playAnimation('titleIn');
             }            
           },
-
+          // Únicamente animar items después de la primera llamada para generar un caché
           handleResponse: function(e) {
             console.log(this.precache);
               if (this.precache) {
@@ -347,11 +335,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.precache = !this.precache;
               }
           },
-
+          // Generar request por ajax a url
           menuPressed: function() {
             this.$.ajaxReq.generateRequest();
           },
-
+          // Recuperar errores de llamada a api y mostrar modal con error 404
           _handleError: function() {
             if (this.$.ajaxReq.lastError.request.status === 404 ) {
                 this.$.cover.style.display = 'block';
@@ -359,7 +347,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
               console.log(this.$.ajaxReq.lastError.request.status);
           },
-
+          // Correr animaciones de cierre de aplicación
           closeAlert: function() {
             var self = this;
             this.playAnimation('goodBye1');
@@ -367,19 +355,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 self.$.banner.style.display = 'none';
             }, 800);
           },
-
+          // Mostrar el cuerpo de la aplicación
           show: function() {
               this.$.banner.style.display = 'block';
               this.cancelAnimation();
               this.playAnimation('entry');
           },
-
+          //  Ocultar los elementos
           hide: function() {
               this.style.display = 'none';
               this.cancelAnimation();
               this.playAnimation('exit');
           },
 
+          // Animar en cascada los elementos de noticias
           mostrarItems: function() {
               this.async(function() {
                 var nodeList = Polymer.dom(this.root).querySelectorAll('news-item');
