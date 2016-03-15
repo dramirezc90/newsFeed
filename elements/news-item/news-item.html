@@ -18,7 +18,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             width: 100%;
             float: left;
             margin-bottom: 8px;
-            transition: 0.6s all ease-in-out;
         }
         .service-panel-img {
             display: inline-block;
@@ -64,7 +63,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             height: 100%;
             border-radius: 50%;
             margin: auto;
-            transition: 0.6s all ease-in-out;
         }
         .service-panel-desc h4 {
             font-size: 0.85em;
@@ -83,35 +81,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             margin-top: 5px;
             display: none;
             float: left;
-            -webkit-transition: visibility 0s, opacity 0.5s linear;
-            transition: visibility 0s, opacity 0.5s linear;
             visibility: hidden;
             opacity: 0;
             overflow: hidden;
         }
-        #content.active {
+        .active {
             display: block !important;
-            visibility: visible;
-            opacity: 1;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         .content-panel-desc h3 {
             font-size: 0.9em;
             font-weight: 600;
             margin: 0.2em;
         }
-        @media only screen and (max-width: 1024px) {
-            :host {
-
+        @media only screen and (max-width: 700px) {
+            .service-panel-img {
+              width: 25%
+            }
+            .service-panel-desc {
+              width: 75%;
             }
         }
-        @media only screen and (max-width: 900px) {
+        @media only screen and (max-width: 370px) {
             :host {
-
             }
-        }
-        @media only screen and (max-width: 490px) {
-            :host {
-                
+            .service-panel-desc h4 {
+              font-size: 0.75em;
             }
         }
     </style>
@@ -153,7 +149,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               titulo: {
                   type: String,
-                  value: "Creemos en brindar el mejor servicio.",
+                  value: "Noticia #1.",
                   notify: true
               },
 
@@ -196,27 +192,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           },
 
-          listeners: {
-              'neon-animation-finish': '_onNeonAnimationFinish'
-            },
 
           ready: function() {
-            console.log(this.imagen);
             this.show();
           },
 
           showDesc: function() {
-              console.log(this.opened);
               this.opened = true;
               this.toggleClass('active', this.opened, this.$.content);
               this.playAnimation('open');
           },
 
-          mostrar: function(e, detail) {
-            var nodeList = Polymer.dom(this.root).node.host.parentElement.querySelectorAll('#content.active');
-
+          mostrar: function() {
+            console.log('mostrando');
+            this.fire('eventoEnHijo', {titulo: this.titulo, opened: this.opened});
             this.cancelAnimation();
-            console.log(this.opened);
               if( this.opened )
                   this.hide();
               else
@@ -228,7 +218,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   if (!self.opened) {
                     self.toggleClass('active', false, self.$.content);
                   }
-              }, 500);  
+              }, 450);  
               
           },
 
@@ -242,14 +232,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               this.cancelAnimation();
               this.playAnimation('entry');
           },
-
-          _onNeonAnimationFinish: function() {
-              console.log("animation Finished");  
-              /*if (!this.opened) {
-                this.toggleClass('active', false, this.$.content);
-              }*/
-          }
-
           
 
       });

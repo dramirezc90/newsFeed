@@ -4,18 +4,29 @@
 		<title>News Feed</title>
 		<link rel="stylesheet" href="styles/main.css">
 
+		<!-- <script src="bower_components/jquery/dist/jquery.js"></script> -->
+		<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+
 		<!-- Importando elementos de polymer que se van a usar -->
-		<link rel="import" href="elements/news-element/news-element.html">
+		<!-- <link rel="import" href="bower_components/neon-animation/neon-animated-pages.html">
+		<link rel="import" href="bower_components/neon-animation/neon-animatable.html"> -->
 		<link rel="import" href="bower_components/polymer/polymer.html">
 		<link rel="import" href="bower_components/neon-animation/neon-animation.html">
-		<link rel="import" href="bower_components/neon-animation/neon-animation-behavior.html">
+		<!-- <link rel="import" href="bower_components/neon-animation/neon-animation-behavior.html">
 		<link rel="import" href="bower_components/neon-animation/neon-animation-runner-behavior.html">
-		<link rel="import" href="bower_components/neon-animation/animations/cascaded-animation.html">
+		<link rel="import" href="bower_components/neon-animation/animations/cascaded-animation.html"> -->
 		<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+		<link rel="import" href="elements/bounce-down-animation/bounce-down-animation.html">
 		<link rel="import" href="elements/bounce-up-animation/bounce-up-animation.html">
+		<link rel="import" href="elements/bounce-away-animation/bounce-away-animation.html">
 		<link rel="import" href="elements/retract-animation/retract-animation.html">
 		<link rel="import" href="elements/expand-animation/expand-animation.html">
+		<link rel="import" href="elements/news-element/news-element.html">
 		<link rel="import" href="elements/news-item/news-item.html">
+
+
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
@@ -23,4 +34,10 @@
 			<news-element></news-element>
 		</div>
 	</body>
+	<script>
+	    document.addEventListener('WebComponentsReady', function() {
+	      document.querySelector('news-element').show();
+	    });
+
+	  </script>
 </html>

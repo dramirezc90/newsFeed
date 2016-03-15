@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Polymer({
 
-    is: 'bounce-up-animation',
+    is: 'bounce-away-animation',
 
     behaviors: [
       Polymer.NeonAnimationBehavior
@@ -29,13 +29,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         
         this._effect = new KeyframeEffect(config.node, [
-            {offset: 0.0, 'transform': 'translateY(200%)'},
-            {offset: 0.7, 'transform': 'translateY(none)'},
-            {offset: 0.75, 'transform': 'translateY(-8%)'},
-            {offset: 0.85, 'transform': 'translateY(4.5%)'},
-            {offset: 0.9, 'transform': 'translateY(-1.9%)'},
-            {offset: 0.97, 'transform': 'translateY(0.5%)'},
-            {offset: 1.0, 'transform': 'none'}  
+            {offset: 0.0, 'transform': 'none'},
+            {offset: 1.0, 'transform': 'translateY(150%)'} 
         ], this.timingFromConfig(config));
 
         return this._effect;
