@@ -35,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         #header {
           width: 100%;
-          height: 60px;
+          height: 70px;
           background-color: #FF6855;
           border-radius: 10px 10px 0px 0px;
           padding: 17px 37px;
@@ -44,21 +44,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           display: inline-block;
           float: left;
         }
+        #menu-cont {
+          display: inline-block;
+          width: 20%;
+          float: left;
+        }
         #header span {
           display: inline-block;
-          padding-left: 50px;
           color: white;
           font-weight: 100;
           margin: 4px 0px;
           display: none;
+          width: 80%;
         }
         #menu {
           width: 45px;
         }
         #content {
           width: 100%;
-          min-height: 73vh;
-          max-height: 73vh;
+          min-height: 70vh;
+          max-height: 70vh;
           padding: 10px 37px;
           overflow: scroll;
           position: relative;
@@ -107,7 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin: 5px 15px;
           color: #eee;
           font-weight: 100;
-          font-size: 1.2em;
+          font-size: 1.1em;
         }
         #config input {
           padding: 4px;
@@ -192,7 +197,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         <div id="banner">
           <div id="header">
-            <img on-tap="menuPressed" id="menu" src="../../images/technology.png">
+            <div id="menu-cont">
+              <img on-tap="menuPressed" id="menu" src="../../images/technology.png">
+            </div>
             <span id="title">{{titulo}}</span>
           </div>
           <div id="content" >
@@ -304,8 +311,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
           ready: function() {
-            // this.$.banner.display = "block";
-              // this.show();
+            this.$.banner.display = "block";
+              this.show();
           },
 
           reset: function() {
@@ -325,7 +332,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }, 300); 
 
             } else {
-                var t = event.detail.titulo.slice(0,70);
+                var t = event.detail.titulo.slice(0,60);
                 this.titulo = t.concat(" ...");
                 this.$.title.style.display = "inline-block";
                 this.playAnimation('titleIn');

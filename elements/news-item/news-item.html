@@ -22,34 +22,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .service-panel-img {
             display: inline-block;
             float: left;
-            height: 60px;
-            width: 15%;
+            height: 90px;
+            width: 20%;
         }
         .service-panel-desc {
             overflow: hidden;
             display: inline-block;
             float: left;
-            height: 60px;
-            width: 85%;
+            height: 90px;
+            width: 80%;
         }
         .content-panel-img {
             display: inline-block;
             float: left;
-            width: 35%;
             height: 100%;
             overflow: hidden;
+            width: 200px;
         }
         .content-panel-img img {
           display: block;
           height: 100%;
+          max-height: 200px;
+          max-width: 200px;
         }
         .content-panel-desc {
-            overflow: scroll;
             display: inline-block;
             float: left;
-            width: 65%;
+            width: 70%;
             padding: 20px;
-            font-size: 0.8em;
+            font-size: 1em;
             font-weight: 300;
             text-align: justify;
         }
@@ -65,18 +66,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             margin: auto;
         }
         .service-panel-desc h4 {
-            font-size: 0.85em;
+            font-size: 1.2em;
             font-weight: 300;
         }
         #animatableElem {
             display: block;
-            min-height: 70px;
+            min-height: 100px;
             padding: 5px;
             background-color: white;
         }
         #content {
             width: 100%;
-            height: 180px;
+            height: 100%;
             background-color: white;
             margin-top: 5px;
             display: none;
@@ -102,6 +103,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             .service-panel-desc {
               width: 75%;
             }
+            .content-panel-desc {
+            width: 60%;
+        }
         }
         @media only screen and (max-width: 370px) {
             :host {
@@ -116,7 +120,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <img src="{{imagen}}">
         </div>
         <div class="service-panel-desc">
-            <h4>{{titulo}}</h4>
+            <h4>{{tituloF}}</h4>
         </div>
     </div>
     <div id="content">
@@ -124,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <img src="{{imagen}}">
         </div>
         <div class="content-panel-desc">
-            <h3>{{titulo}}</h3>
+            <h3>{{tituloF}}</h3>
 
             <p>{{texto}}</p>
             <!-- <p>{{texto}}</p> -->
@@ -149,8 +153,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               titulo: {
                   type: String,
-                  value: "Noticia #1.",
                   notify: true
+              },
+
+              tituloF: {
+                type: String,
+                computed: 'computeTitle(titulo)',
+                notify: true
               },
 
               texto: {
@@ -197,6 +206,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.show();
           },
 
+          computeTitle: function( titulo ) {
+            var t = titulo.toLowerCase().substring(1);
+            var first = titulo.charAt(0).toUpperCase();
+            return first.concat(t);
+          },
+
           showDesc: function() {
               this.opened = true;
               this.toggleClass('active', this.opened, this.$.content);
@@ -205,7 +220,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           mostrar: function() {
             console.log('mostrando');
-            this.fire('eventoEnHijo', {titulo: this.titulo, opened: this.opened});
+            this.fire('eventoEnHijo', {titulo: this.tituloF, opened: this.opened});
             this.cancelAnimation();
               if( this.opened )
                   this.hide();
