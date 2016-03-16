@@ -27,7 +27,7 @@ $ cd /Applications/XAMPP/xamppfiles/htdocs
 ```sh
 $ git clone https://github.com/dramirezc90/newsFeed.git
 ```
-#### 3. Opcionlamente se recomienda configurar bower en caso de desear instalar mas paquetes.
+#### 3. Opcionalmente se recomienda configurar bower en caso de desear instalar mas paquetes.
 ```sh
 $ npm install -g bower
 $ bower install <package>
