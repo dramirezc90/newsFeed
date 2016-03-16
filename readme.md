@@ -4,6 +4,9 @@ NewsFeed es una aplicación web sencilla basada en web components, que obtiene u
 
 NewsFeed fue desarrollado con la velocidad en mente y la idea de poder precargar el contenido generando un caché inicial, de tal forma que el usuario no perciba la etapa de carga de información y su experiencia sea lo mas fluida posible.  Para las animaciones se crearon custom elements que extienden la funcionalidad de la libreria neon-animations de Google.
 
+## Consideraciones
+
+La aplicacion tiene integrado un input en el cual se encuentra preestablecida una ruta con un archivo JSON, sin embargo el texto del  input puede y debe ser cambiado por otra url que apunte a un API cuya respuesta sea un archivo JSON con la misma estructura del de prueba, en caso de no encontrarlo, la aplicacion dispone de un mensaje de alerta ante posibles errores 404.
 
 ## Versión
 0.0.1
