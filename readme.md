@@ -1,4 +1,4 @@
-# NewsFeed Aplication
+# NewsFeed - Grability test app
 
 NewsFeed es una aplicación web sencilla basada en web components, que obtiene una serie de "noticias" a partir de una llamada a una url la cual devuelve un objeto JSON y es presentado en una interfaz amigable para el usuario.
 
